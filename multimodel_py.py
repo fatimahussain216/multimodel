@@ -45,8 +45,8 @@ def chunk(text):
 # embeddings
 
 def embedding(text, model="text-embedding-3-small"):
-    url = "https://api.euron.one/api/v1/euri/embeddings"
-    api_key="YOUR_REAL_KEY_HERE"
+    url = "https://api.openai.com/v1/embeddings"
+    api_key=st.secrets["HUGGING_FACE_API_KEY"]
     headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
     payload = {"model": model, "input": text}
     response = requests.post(url, headers=headers, json=payload)
@@ -95,7 +95,7 @@ answer:"""
 #COMPLETION
 def generate_completion(prompt, model="gpt-4.1-nano"):
     url = "https://api.euron.one/api/v1/euri/chat/completions"
-    api_key="YOUR_REAL_KEY_HERE"
+    api_key=st.secrets["EUI_KEY"]
     headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
     payload = {"model": model, "messages":[{"role":"user","content":prompt}],
                "max_tokens":110,"temperature":0.4}
@@ -105,28 +105,44 @@ def generate_completion(prompt, model="gpt-4.1-nano"):
 
 #STREAMLIT UI
 
-query = st.text_input("Enter your question")
-
-mode = st.radio("Select mode", ["Text PDF", "OCR PDF"])
+st.header("OCR + Text RAG")
+st.subheader("Don't upload file less than 23MB")
 
 pdf_file = st.file_uploader("Upload PDF", type=["pdf"])
+query = st.text_input("Enter your question")
+mode = st.radio("Select mode", ["Text PDF", "OCR PDF"])
 
 if pdf_file and st.button("Process"):
-
+    
+    # Step 1: Extract text
     if mode == "Text PDF":
         text = text_extract(pdf_file)
     else:
         text = ocr_extract(pdf_file)
-
+    
+    # Step 2: Chunking
     chunks = chunk(text)
+    
+    # Step 3: Create embeddings
     embeddings = [embedding(c) for c in chunks]
-    index, chunk_mapping = faiss_load(chunks, embeddings)
-
-    # memory load optional
-    mem_index, mem_chunks = load_memory()
-
-    context_chunks = retrive_k(query, index, chunk_mapping)
-    prompt = build_prompt(context_chunks, query)
-    ans = generate_completion(prompt)
-    st.write(ans)
-    st.success("PDF processed successfully")
+    
+    # Step 4: Check embeddings
+    if len(embeddings) == 0:
+        st.error("No embeddings found!")
+    else:
+        # Step 5: Load FAISS index
+        index, chunk_mapping = faiss_load(chunks, embeddings)
+        
+        # Optional memory
+        mem_index, mem_chunks = load_memory()
+        
+        # Step 6: Retrieve relevant chunks
+        context_chunks = retrive_k(query, index, chunk_mapping)
+        
+        # Step 7: Build prompt
+        prompt = build_prompt(context_chunks, query)
+        
+        # Step 8: Generate answer
+        ans = generate_completion(prompt)
+        st.write(ans)
+        st.success("PDF processed successfully")
