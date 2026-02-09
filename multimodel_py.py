@@ -46,7 +46,7 @@ def chunk(text):
 
 def embedding(text, model="text-embedding-3-small"):
     url = "https://api.openai.com/v1/embeddings"
-    api_key=st.secrets["HUGGING_FACE_API_KEY"]
+    api_key=st.secrets["OPEN_API_KEY"]
     headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
     payload = {"model": model, "input": text}
     response = requests.post(url, headers=headers, json=payload)
@@ -83,7 +83,7 @@ def retrive_k(query, index, chunk_mapping, k=3):
     distances, indices = index.search(query_vector, k)
     return [chunk_mapping[i] for i in indices[0]]
 
-# prompt COMPLETION ----------
+# prompt COMPLETION 
 
 def build_prompt(context_chunks, query):
     context = "\n\n".join(context_chunks)
@@ -95,7 +95,7 @@ answer:"""
 #COMPLETION
 def generate_completion(prompt, model="gpt-4.1-nano"):
     url = "https://api.euron.one/api/v1/euri/chat/completions"
-    api_key=st.secrets["EUI_KEY"]
+    api_key=st.secrets["EURI_KEY"]
     headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
     payload = {"model": model, "messages":[{"role":"user","content":prompt}],
                "max_tokens":110,"temperature":0.4}
