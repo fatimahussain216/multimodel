@@ -117,38 +117,37 @@ st.subheader("Don't upload file less than 23MB")
 pdf_file = st.file_uploader("Upload PDF", type=["pdf"])
 
 mode = st.radio("Select mode", ["Text PDF", "OCR PDF"])
-
+query = st.text_input("Enter your question")
 if pdf_file and st.button("Process"):
-    query = st.text_input("Enter your question")
-    # Step 1: Extract text
+    
     if mode == "Text PDF":
         text = text_extract(pdf_file)
     else:
         text = ocr_extract(pdf_file)
     
-    # Step 2: Chunking
+    
     chunks = chunk(text)
     
-    # Step 3: Create embeddings
+    
     embeddings = [embedding(c) for c in chunks]
     
-    # Step 4: Check embeddings
+    
     if len(embeddings) == 0:
         st.error("No embeddings found!")
     else:
-        # Step 5: Load FAISS index
+        
         index, chunk_mapping = faiss_load(chunks, embeddings)
         
-        # Optional memory
+        
         mem_index, mem_chunks = load_memory()
         
-        # Step 6: Retrieve relevant chunks
+        
         context_chunks = retrive_k(query, index, chunk_mapping)
         
-        # Step 7: Build prompt
+        
         prompt = build_prompt(context_chunks, query)
         
-        # Step 8: Generate answer
+        
         ans = generate_completion(prompt)
         st.write(ans)
         st.success("PDF processed successfully")
