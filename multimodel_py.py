@@ -129,7 +129,6 @@ def generate_completion(prompt, model="gpt-4.1-nano"):
 #STREAMLIT UI
 
 st.header("OCR + Text RAG")
-
 st.subheader("⚠️ Please upload PDF between 20 KB and 30 MB only")
 
 pdf_file = st.file_uploader("Upload PDF", type=["pdf"])
