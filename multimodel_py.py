@@ -110,9 +110,9 @@ st.subheader("Don't upload file less than 23MB")
 pdf_file = st.file_uploader("Upload PDF", type=["pdf"])
 
 mode = st.radio("Select mode", ["Text PDF", "OCR PDF"])
-query = st.text_input("Enter your question")
+
 if pdf_file and st.button("Process"):
-    
+    query = st.text_input("Enter your question")
     # Step 1: Extract text
     if mode == "Text PDF":
         text = text_extract(pdf_file)
