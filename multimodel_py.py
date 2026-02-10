@@ -100,12 +100,21 @@ def retrive_k(query, index, chunk_mapping, k=3):
 # prompt COMPLETION 
 
 def build_prompt(context_chunks, query):
-    context = "\n\n".join(context_chunks)
-    return f"""use the following pieces of context to answer the question.
-if you don't know the answer just say that you don't know, don't try to make up an answer.
-context:{context}
-question:{query}
-answer:"""
+    if not context_chunks:
+        context_chunks = ["No context available."]
+
+    context = "\n".join(context_chunks)
+    prompt = f"""
+Use the following context to answer the question:
+
+Context:
+{context}
+
+Question:
+{query}
+"""
+    return prompt
+    
 #COMPLETION
 def generate_completion(prompt, model="gpt-4.1-nano"):
     url = "https://api.euron.one/api/v1/euri/chat/completions"
