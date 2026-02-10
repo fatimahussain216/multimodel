@@ -6,3 +6,4 @@ numpy<2
 faiss-cpu
 requests
 pillow
+langchain-text-splitters
