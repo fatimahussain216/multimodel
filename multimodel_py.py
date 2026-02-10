@@ -108,9 +108,9 @@ st.header("OCR + Text RAG")
 st.subheader("Don't upload file less than 23MB")
 
 pdf_file = st.file_uploader("Upload PDF", type=["pdf"])
-query = st.text_input("Enter your question")
-mode = st.radio("Select mode", ["Text PDF", "OCR PDF"])
 
+mode = st.radio("Select mode", ["Text PDF", "OCR PDF"])
+query = st.text_input("Enter your question")
 if pdf_file and st.button("Process"):
     
     # Step 1: Extract text
