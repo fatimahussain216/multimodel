@@ -96,7 +96,7 @@ def retrive_k(query, index, chunk_mapping, k=3):
                 safe_chunks.append(chunk_mapping[i])
         except:
             pass
-   return safe_chunks
+    return safe_chunks
 # prompt COMPLETION 
 
 def build_prompt(context_chunks, query):
