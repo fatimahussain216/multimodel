@@ -78,9 +78,9 @@ def faiss_load(chunks, embeddings):
       #  return None, {}
     
 def retrive_k(query, index, chunk_mapping, k=3):
-    if not index or not chunk_mapping:
-    st.warning("Vector memory empty. Please index documents first.")
-    return []
+    #if not index or not chunk_mapping:
+    #st.warning("Vector memory empty. Please index documents first.")
+    #return []
 
     
 
