@@ -150,7 +150,7 @@ if pdf_file and st.button("Process"):
         mem_index, mem_chunks = load_memory()
         
         
-        context_chunks = retrive_k(query, index, chunk_mapping)
+        context_chunks = retrive_k(query,mem_index, mem_chunks)
         
         
         prompt = build_prompt(context_chunks, query)
