@@ -147,10 +147,10 @@ if pdf_file and st.button("Process"):
         index, chunk_mapping = faiss_load(chunks, embeddings)
         
         
-        mem_index, mem_chunks = load_memory()
         
         
-        context_chunks = retrive_k(query,mem_index, mem_chunks)
+        
+        context_chunks = retrive_k(query,index, chunk_mapping)
         
         
         prompt = build_prompt(context_chunks, query)
