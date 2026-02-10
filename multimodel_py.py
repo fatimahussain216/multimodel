@@ -65,17 +65,17 @@ def faiss_load(chunks, embeddings):
 
 
 
-def load_memory():
-    try:
-        index = faiss.read_index("index.faiss")
-        with open("chunks.pkl", "rb") as f:
-            chunks = pickle.load(f)
-        print("FAISS memory loaded:", index.ntotal)
-        return index, chunks
+#def load_memory():
+   # try:
+    #    index = faiss.read_index("index.faiss")
+     #   with open("chunks.pkl", "rb") as f:
+      #      chunks = pickle.load(f)
+       # print("FAISS memory loaded:", index.ntotal)
+        #return index, chunks
 
-    except Exception as e:
-        print("Memory load failed:", e)
-        return None, {}
+    #except Exception as e:
+     #   print("Memory load failed:", e)
+      #  return None, {}
     
 def retrive_k(query, index, chunk_mapping, k=3):
     if not index or not chunk_mapping:
