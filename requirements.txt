@@ -1,7 +1,7 @@
-streamlit==1.26.0
-numpy==1.26.0
-faiss-cpu==1.7.4
-pytesseract==0.3.11
-pdf2image==1.16.3
-requests==2.31.0
-langchain==0.1.0
+langchain
+streamlit
+pdf2image
+pytesseract
+numpy
+faiss-cpu
+requests
