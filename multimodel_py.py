@@ -19,7 +19,7 @@ import requests
 
 def text_extract(pdf_path):
     """Text PDF extraction placeholder"""
-    # Agar PyMuPDF ya pdfplumber use karna ho to yahan implement
+    
     return "Extracted text from normal PDF"
 
 def ocr_extract(pdf_path):
@@ -129,7 +129,8 @@ def generate_completion(prompt, model="gpt-4.1-nano"):
 #STREAMLIT UI
 
 st.header("OCR + Text RAG")
-st.subheader("Don't upload file less than 23MB")
+
+st.subheader("⚠️ Please upload PDF between 20 KB and 30 MB only")
 
 pdf_file = st.file_uploader("Upload PDF", type=["pdf"])
 
