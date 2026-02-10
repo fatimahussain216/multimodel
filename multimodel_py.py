@@ -77,17 +77,21 @@ def load_memory():
 # reterival
 
 def retrive_k(query, index, chunk_mapping, k=3):
+    if index is None or index.ntotal == 0:
+        return []
+
     query_embedding = embedding(query)
     query_vector = np.array(query_embedding, dtype=np.float32).reshape(1, -1)
 
     distances, indices = index.search(query_vector, k)
 
-    valid_chunks = []
+    safe_chunks = []
     for i in indices[0]:
-        if i != -1 and i in chunk_mapping:
-            valid_chunks.append(chunk_mapping[i])
-
-    return valid_chunks
+        try:
+            if i != -1:
+                safe_chunks.append(chunk_mapping[i])
+        except:
+            pass
 
 # prompt COMPLETION 
 
